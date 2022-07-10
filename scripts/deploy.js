@@ -6,6 +6,11 @@ async function main(){
   const Storage=await storage.deploy();
   await Storage.deployed();
   console.log(`Your contact adress is: ${Storage.address}`);
+  // interecr with the conract
+  const value=await Storage.retrieve()
+  console.log(`number is ${value}`);
+  await Storage.store(5);
+  console.log(await Storage.retrieve())
 }
 
 
