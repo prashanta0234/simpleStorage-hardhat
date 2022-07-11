@@ -10,7 +10,10 @@ async function main(){
   const value=await Storage.retrieve()
   console.log(`number is ${value}`);
   await Storage.store(5);
-  console.log(await Storage.retrieve())
+ const vv=await Storage.retrieve()
+  console.log(vv.toString())
+
+  // console.log(a)
 }
 
 

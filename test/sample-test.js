@@ -1,19 +1,32 @@
-const { expect } = require("chai");
+const { assert } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+describe("SimpleStorage", async function(){
+  let simpleStorageFactory;
+  let simpleStorage;
+  // simpleStorageFactory=await ethers.getContractFactory("SimpleStorage");
+  // simpleStorage=await simpleStorageFactory.deploy();
+  beforeEach(async function (){
+  simpleStorageFactory=await ethers.getContractFactory("SimpleStorage");
+  simpleStorage=await simpleStorageFactory.deploy();
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+  })
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
-  });
-});
+  it("Return should number 0", async function(){
+    const value=await simpleStorage.retrieve();
+    const zero=0
+    assert.equal(value.toString(),zero);
+  })
+  it("value is seted 5",async function (){
+    const five="5"
+    const setV=await simpleStorage.store(five)
+    await setV.wait(1)
+   
+    const value=await simpleStorage.retrieve();
+    // console.log()
+   const v=value.toString();
+    assert.equal(v,five)
+  })
+})
